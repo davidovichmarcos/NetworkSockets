@@ -1,10 +1,17 @@
 package com.networks.client;
 // A Java program for a Client
+import javafx.scene.input.InputMethodTextRun;
+import jdk.internal.util.xml.impl.Input;
+
 import java.net.*;
 import java.io.*;
+import java.util.Scanner;
+
 
 public class Client2
 {
+    public static String clientAddress;
+    public static Integer clientPort;
     // initialize socket and input output streams
     private Socket socket		 = null;
     private DataInputStream input = null;
@@ -13,6 +20,8 @@ public class Client2
     // constructor to put ip address and port
     public Client2(String address, int port)
     {
+
+
         // establish a connection
         try
         {
@@ -64,7 +73,22 @@ public class Client2
 
     public static void main(String args[])
     {
-        Client client = new Client("127.0.0.1", 3000);
+
+        Client2 client = new Client2(getClientAddress(), getClientPort());
+    }
+
+    public static String getClientAddress() {
+
+        System.out.println("insert address");
+        Scanner scanner = new Scanner( System. in);
+        clientAddress = scanner. nextLine();
+    return clientAddress;
+    }
+    public static Integer getClientPort() {
+        Scanner scanner = new Scanner( System. in);
+        System.out.println("insert port")   ;
+        clientPort = scanner.nextInt();
+        return clientPort;
     }
 }
 
