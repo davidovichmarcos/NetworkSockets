@@ -1,65 +1,58 @@
 package com.networks.server;
 
-// A Java program for a Server
-import java.net.*;
-import java.io.*;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class Server
-{
-    //initialize socket and input stream
-    private Socket		 socket = null;
-    private ServerSocket server = null;
-    private DataInputStream in	 = null;
+class Multi extends Thread{
+    private Socket s=null;
+    DataInputStream infromClient;
+    Multi() throws IOException{
 
-    // constructor with port
-    public Server(int port)
-    {
-        // starts server and waits for a connection
-        try
-        {
-            server = new ServerSocket(port);
-            System.out.println("Server started");
 
-            System.out.println("Waiting for a client ...");
-
-            socket = server.accept();
-            System.out.println("Client accepted");
-
-            // takes input from the client socket
-            in = new DataInputStream(
-                    new BufferedInputStream(socket.getInputStream()));
-
-            String line = "";
-
-            // reads message from client until "Over" is sent
-            while (!line.equals("Over"))
-            {
-                try
-                {
-                    line = in.readUTF();
-                    System.out.println(line);
-
-                }
-                catch(IOException i)
-                {
-                    System.out.println(i);
-                }
-            }
-            System.out.println("Closing connection");
-
-            // close connection
-            socket.close();
-            in.close();
-        }
-        catch(IOException i)
-        {
-            System.out.println(i);
-        }
     }
+    Multi(Socket s) throws IOException{
+        this.s=s;
+        infromClient = new DataInputStream(s.getInputStream());
+    }
+    public void run(){
 
-    public static void main(String args[])
-    {
-        Server server = new Server(3000);
+        String SQL=new String();
+        try {
+            SQL = infromClient.readUTF();
+        } catch (IOException ex) {
+            Logger.getLogger(Multi.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Query: " + SQL);
+        try {
+            System.out.println("Socket Closing");
+            s.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Multi.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
+public class Server {
 
+    public static void main(String args[]) throws IOException,
+            InterruptedException{
+
+        while(true){
+            ServerSocket ss=new ServerSocket(3000);
+            System.out.println("Server is Awaiting");
+            Socket s=ss.accept();
+            Multi t=new Multi(s);
+            t.start();
+
+            Thread.sleep(2000);
+            ss.close();
+        }
+
+
+
+
+    }
+}
