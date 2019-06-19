@@ -7,79 +7,33 @@ import java.net.*;
 import java.io.*;
 import java.util.Scanner;
 
+import static com.networks.client.Client.clientAddress;
+
 
 public class Client2
 {
-    public static String clientAddress;
-    public static Integer clientPort;
 
+    private static int clientPort;
     // initialize socket and input output streams
-    private Socket socket		 = null;
-    private DataInputStream in = null;
+
     private DataInputStream input = null;
     private DataOutputStream out	 = null;
 
     // constructor to put ip address and port
-    public Client2(String address, int port)
-    {
+    public Client2(String address, int port) throws IOException {
 
-        // establish a connection
-        try
-        {
-            socket = new Socket(address, port);
-            System.out.println("Connected");
+        try {
 
-            // receives data from server
-            in = new DataInputStream(socket.getInputStream());
-
-            // takes input from terminal
-            input = new DataInputStream(System.in);
-            // sends output to the socket
-            out = new DataOutputStream(socket.getOutputStream());
-        }
-        catch(UnknownHostException u)
-        {
-            System.out.println(u);
-        }
-        catch(IOException i)
-        {
-            System.out.println(i);
-        }
-
-        // string to read message from input
-        String line = "";
-
-        // keep reading until "Over" is input
-        while (!line.equals("Over"))
-        {
-            try
-            {
-                line = input.readLine();
-                out.writeUTF(line);
-                System.out.println( "[From Server] - "+ in.readUTF() );
-
-            }
-            catch(IOException i)
-            {
-                System.out.println(i);
-            }
-        }
-
-        // close the connection
-        try
-        {
-            input.close();
-            out.close();
+        }catch (Exception e){
+            Socket socket = new Socket();
+            socket.connect(new InetSocketAddress(address,port));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            out.println("Client says:");
             socket.close();
-        }
-        catch(IOException i)
-        {
-            System.out.println(i);
         }
     }
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) throws IOException {
 
         Client2 client = new Client2(getClientAddress(), getClientPort());
     }
