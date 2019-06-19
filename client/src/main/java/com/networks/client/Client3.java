@@ -7,8 +7,8 @@ import java.net.*;
 import java.io.*;
 import java.util.Scanner;
 
-
-public class Client2
+// es un copypaste de client2
+public class Client3
 {
     public static String clientAddress;
     public static Integer clientPort;
@@ -20,7 +20,7 @@ public class Client2
     private DataOutputStream out	 = null;
 
     // constructor to put ip address and port
-    public Client2(String address, int port)
+    public Client3(String address, int port)
     {
 
         // establish a connection
@@ -81,7 +81,7 @@ public class Client2
     public static void main(String args[])
     {
 
-        Client2 client = new Client2(getClientAddress(), getClientPort());
+        Client3 client = new Client3(getClientAddress(), getClientPort());
     }
 
     public static String getClientAddress() {
@@ -89,7 +89,7 @@ public class Client2
         System.out.println("insert address");
         Scanner scanner = new Scanner( System. in);
         clientAddress = scanner. nextLine();
-    return clientAddress;
+        return clientAddress;
     }
     public static Integer getClientPort() {
         Scanner scanner = new Scanner( System. in);
