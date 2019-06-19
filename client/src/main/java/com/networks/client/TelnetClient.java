@@ -39,25 +39,45 @@ public class TelnetClient {
             e.printStackTrace();
         }
 
+        //listener se mantiene constantemente escuchando mensajes del servidor
+        // y los imprime a la consola
+        Listener l = new Listener(s_in);
         Scanner scanner = new Scanner(System.in);
+
         System.out.println("Pick a nickname: ");
-        //Send message to server
-        String message = scanner.nextLine();
+        //String response;
+        String message ="";
 
-        s_out.println( message );
-
-        System.out.println("Message send");
-
-        //Get response from server
-        String response;
-        try {
-            while ((response = s_in.readLine()) != null) {
-                System.out.println( response );
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        while(!message.equals("abort")) {
+            //Send message to server
+            System.out.printf(" * > ");
+            message = scanner.nextLine();
+            s_out.println( message );
         }
     }
+
+
+     public class Listener extends Thread {
+         BufferedReader s_in = null;
+
+         public Listener(BufferedReader s_in){
+             this.s_in = s_in;
+            start();
+        }
+        public void run(){
+             String response;
+            while(true){
+                try {
+                    if ((response = s_in.readLine()) != null) {
+                        System.out.println( response );
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+     }
+
     public static void main(String args[])
     {
 

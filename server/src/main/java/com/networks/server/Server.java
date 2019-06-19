@@ -9,7 +9,7 @@ public class Server
     Vector<String> users = new Vector<String>();
     Vector<HandleClient> clients = new Vector<HandleClient>();
 
-    int PORT = 9020;
+    //int PORT = 9020;
     int NumClients = 10;
 
     public void process() throws Exception
@@ -19,6 +19,7 @@ public class Server
         while( true)
         {
             Socket client = server.accept();
+            out.println("server > [ Cliente nuevo ]");
             HandleClient c = new HandleClient(client);
             clients.add(c);
         }  // end of while
@@ -50,10 +51,11 @@ public class Server
             // get input and output streams
             input = new BufferedReader(new InputStreamReader(client.getInputStream())) ;
             output = new PrintWriter (client.getOutputStream(),true);
-            output.println("Welcome to Bob's Chat Server!\n");
+            output.println("Welcome to Bob's Chat Server! : Please Enter a User Name ");
             // read name
-            output.println("Please Enter a User Name: ");
             name  = input.readLine();
+
+            out.println("** NOMBRE: " + name);
             users.add(name); // add to vector
             output.println("Welcome "+name+" we hope you enjoy your chat today");
             start();
@@ -72,11 +74,13 @@ public class Server
         public void run()
         {
             String line;
+            out.println("-- WAITING");
             try
             {
                 while(true)
                 {
                     line = input.readLine();
+                    out.println("server > [ "+name+" ]: " +line);
                     if("EXIT".equals(line))
                     {
                         output.println("Closing Connection  . . . Goodbye");
