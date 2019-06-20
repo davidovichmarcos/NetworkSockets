@@ -8,24 +8,21 @@ import java.io.*;
 import java.util.Scanner;
 
 // es un copypaste de client2
-public class Client3
-{
+public class Client3 {
     public static String clientAddress;
     public static Integer clientPort;
 
     // initialize socket and input output streams
-    private Socket socket		 = null;
+    private Socket socket = null;
     private DataInputStream in = null;
     private DataInputStream input = null;
-    private DataOutputStream out	 = null;
+    private DataOutputStream out = null;
 
     // constructor to put ip address and port
-    public Client3(String address, int port)
-    {
+    public Client3(String address, int port) {
 
         // establish a connection
-        try
-        {
+        try {
             socket = new Socket(address, port);
             System.out.println("Connected");
 
@@ -36,13 +33,9 @@ public class Client3
             input = new DataInputStream(System.in);
             // sends output to the socket
             out = new DataOutputStream(socket.getOutputStream());
-        }
-        catch(UnknownHostException u)
-        {
+        } catch (UnknownHostException u) {
             System.out.println(u);
-        }
-        catch(IOException i)
-        {
+        } catch (IOException i) {
             System.out.println(i);
         }
 
@@ -50,53 +43,32 @@ public class Client3
         String line = "";
 
         // keep reading until "Over" is input
-        while (!line.equals("Over"))
-        {
-            try
-            {
+        while (!line.equals("Over")) {
+            try {
                 line = input.readLine();
                 out.writeUTF(line);
-                System.out.println( "[From Server] - "+ in.readUTF() );
+                System.out.println("[From Server] - " + in.readUTF());
 
-            }
-            catch(IOException i)
-            {
+            } catch (IOException i) {
                 System.out.println(i);
             }
         }
 
         // close the connection
-        try
-        {
+        try {
             input.close();
             out.close();
             socket.close();
-        }
-        catch(IOException i)
-        {
+        } catch (IOException i) {
             System.out.println(i);
         }
     }
 
-    public static void main(String args[])
-    {
+    public static void main(String args[]) {
 
-        Client3 client = new Client3(getClientAddress(), getClientPort());
+        Client3 client = new Client3(ClientHelper.getClientAddress(), ClientHelper.getClientPort());
     }
 
-    public static String getClientAddress() {
-
-        System.out.println("insert address");
-        Scanner scanner = new Scanner( System. in);
-        clientAddress = scanner. nextLine();
-        return clientAddress;
-    }
-    public static Integer getClientPort() {
-        Scanner scanner = new Scanner( System. in);
-        System.out.println("insert port")   ;
-        clientPort = scanner.nextInt();
-        return clientPort;
-    }
 }
 
 

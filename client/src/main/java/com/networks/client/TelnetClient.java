@@ -10,9 +10,9 @@ import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class TelnetClient {
-    private String host;
-
-    public TelnetClient(String host) {
+    private String host = ClientHelper.getClientAddress();
+    private Integer port = ClientHelper.getClientPort();
+    public TelnetClient() {
         this.host = host;
     }
 
@@ -22,7 +22,7 @@ public class TelnetClient {
         BufferedReader s_in = null;
 
         try {
-            s.connect(new InetSocketAddress("127.0.0.1" , 3000));
+            s.connect(new InetSocketAddress(host , port));
             System.out.println("Connected");
 
             //writer for socket
@@ -81,7 +81,7 @@ public class TelnetClient {
     public static void main(String args[])
     {
 
-        TelnetClient telnetClient = new TelnetClient("127.0.0.1");
+        TelnetClient telnetClient = new TelnetClient();
         telnetClient.getData();
     }
 

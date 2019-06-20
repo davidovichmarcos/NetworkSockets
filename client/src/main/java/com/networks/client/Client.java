@@ -78,22 +78,9 @@ public class Client
     public static void main(String args[])
     {
 
-        Client client = new Client(getClientAddress(), getClientPort());
+        Client client = new Client(ClientHelper.getClientAddress(), ClientHelper.getClientPort());
     }
 
-    public static String getClientAddress() {
-
-        System.out.println("insert address");
-        Scanner scanner = new Scanner( System. in);
-        clientAddress = scanner. nextLine();
-        return clientAddress;
-    }
-    public static Integer getClientPort() {
-        Scanner scanner = new Scanner( System. in);
-        System.out.println("insert port")   ;
-        clientPort = scanner.nextInt();
-        return clientPort;
-    }
 }
 
 
