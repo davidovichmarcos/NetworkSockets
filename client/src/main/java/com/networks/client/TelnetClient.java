@@ -48,7 +48,7 @@ public class TelnetClient {
         //String response;
         String message ="";
 
-        while(!message.equals("abort")) {
+        while(!message.equals("x")) {
             //Send message to server
             System.out.printf(" * > ");
             message = scanner.nextLine();
@@ -80,7 +80,6 @@ public class TelnetClient {
 
     public static void main(String args[])
     {
-
         TelnetClient telnetClient = new TelnetClient();
         telnetClient.getData();
     }

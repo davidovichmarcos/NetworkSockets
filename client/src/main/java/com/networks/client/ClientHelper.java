@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class ClientHelper {
     public static String clientAddress;
-
     public static Integer clientPort;
 
     public static String getClientAddress() {
