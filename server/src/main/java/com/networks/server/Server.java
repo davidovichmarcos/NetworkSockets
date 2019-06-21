@@ -73,7 +73,11 @@ public class Server
                 if(message.equals("sm")) {
                     createMessage();
                 }
+                if (message.equals("x")) {
+                    System.exit(0);
+                }
                 message="";
+
              }
         }
 
@@ -104,7 +108,7 @@ public class Server
                 try {
                     client = this.server.accept();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    out.println("Conetion closed");
                 }
                 out.println("server > [ Cliente nuevo ]");
                 HandleClient c = null;
@@ -158,6 +162,10 @@ public class Server
                 while(true)
                 {
                     line = input.readLine();
+                    if (line.equals(null)) {
+                        out.println();
+                        break;
+                    }
                     out.println("server > [ "+name+" ]: " +line);
                     if("x".equals(line))
                     {
@@ -175,7 +183,7 @@ public class Server
             }
             catch(Exception e)
             {
-                System.out.println(e.getMessage());
+                System.out.println(name+" Disconected");
             }
         }
     }

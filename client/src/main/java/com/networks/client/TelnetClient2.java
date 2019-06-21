@@ -9,10 +9,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
-public class TelnetClient {
+public class TelnetClient2 {
     private String host = ClientHelper.getClientAddress();
     private Integer port = ClientHelper.getClientPort();
-    public TelnetClient() {
+    public TelnetClient2() {
         this.host = host;
     }
 
@@ -36,49 +36,45 @@ public class TelnetClient {
             System.err.println("Don't know about host : " + host);
             System.exit(1);
         } catch (IOException e) {
-            System.out.println("Server down");
+            e.printStackTrace();
         }
 
         //listener se mantiene constantemente escuchando mensajes del servidor
         // y los imprime a la consola
-        if (s_in !=null) {
-            Listener l = new Listener(s, s_in);
+        Listener l = new Listener(s, s_in);
+        Scanner scanner = new Scanner(System.in);
 
-            Scanner scanner = new Scanner(System.in);
-
-            System.out.println("Pick a nickname: ");
-            //String response;
-            String message ="";
+        System.out.println("Pick a nickname: ");
+        //String response;
+        String message ="";
 
 
-            while(!message.equals("x")) {
-                //Send message to server
-                System.out.printf(" * > ");
-                message = scanner.nextLine();
-                if (message.equals("x")) {
-                    s.close();
-                    s_in.close();
-                    s_out.close();
+        while(!message.equals("x")) {
+            //Send message to server
+            System.out.printf(" * > ");
+            message = scanner.nextLine();
+            if (message.equals("x")) {
+                s.close();
+                s_in.close();
+                s_out.close();
 
-                }
-                s_out.println( message );
             }
-
+            s_out.println( message );
         }
     }
 
 
-     public class Listener extends Thread {
-         BufferedReader s_in = null;
-         Socket s;
+    public class Listener extends Thread {
+        BufferedReader s_in = null;
+        Socket s;
 
-         public Listener(Socket s,BufferedReader s_in){
-             this.s_in = s_in;
-             this.s = s;
-             start();
+        public Listener(Socket s,BufferedReader s_in){
+            this.s_in = s_in;
+            this.s = s;
+            start();
         }
         public void run(){
-             String response;
+            String response;
             while(!s.isClosed()){
                 try {
 
@@ -99,7 +95,7 @@ public class TelnetClient {
                 }
             }
         }
-     }
+    }
 
     public static void main(String args[]) throws IOException {
         TelnetClient telnetClient = new TelnetClient();
